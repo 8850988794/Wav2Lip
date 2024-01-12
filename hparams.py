@@ -1,6 +1,7 @@
 from glob import glob
 import os
 
+
 def get_image_list(data_root, split):
 	filelist = []
 
@@ -11,6 +12,9 @@ def get_image_list(data_root, split):
 			filelist.append(os.path.join(data_root, line))
 
 	return filelist
+
+def get_files(data_root, ext = '.mp4'):
+	return glob(os.path.join(data_root, '*{}'.format(ext)))
 
 class HParams:
 	def __init__(self, **kwargs):

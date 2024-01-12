@@ -14,14 +14,18 @@ import numpy as np
 from glob import glob
 
 import os, random, cv2, argparse
-from hparams import hparams, get_image_list
+from hparams import hparams, get_image_list, get_files
 
 parser = argparse.ArgumentParser(description='Code to train the expert lip-sync discriminator')
 
-parser.add_argument("--data_root", help="Root folder of the preprocessed LRS2 dataset", required=True)
+#parser.add_argument("--data_root", help="Root folder of the preprocessed LRS2 dataset", required=True)
 
-parser.add_argument('--checkpoint_dir', help='Save checkpoints to this directory', required=True, type=str)
-parser.add_argument('--checkpoint_path', help='Resumed from this checkpoint', default=None, type=str)
+parser.add_argument("--train_root", help="Root folder of unprocessed train data", default='train')
+parser.add_argument("--test_root", help="Root folder of unprocessed test data", default='test')
+parser.add_argument("--video_extension", help="Root folder of unprocessed test data", default='.mp4')
+
+#parser.add_argument('--checkpoint_dir', help='Save checkpoints to this directory', required=True, type=str)
+#parser.add_argument('--checkpoint_path', help='Resumed from this checkpoint', default=None, type=str)
 
 args = parser.parse_args()
 
@@ -244,19 +248,19 @@ def load_checkpoint(path, model, optimizer, reset_optimizer=False):
     return model
 
 if __name__ == "__main__":
-    checkpoint_dir = args.checkpoint_dir
-    checkpoint_path = args.checkpoint_path
-
+    checkpoint_dir = '/home/nikit/dave_repo/Wav2Lip/checkpoints'#args.checkpoint_dir
+    #checkpoint_path = '/home/nikit/dave_repo/Wav2Lip/checkpoints/vd.pth'#args.checkpoint_path
+    checkpoint_path = '/home/nikit/dave_repo/Wav2Lip/checkpoints/lipsync_expert.pth'
     if not os.path.exists(checkpoint_dir): os.mkdir(checkpoint_dir)
 
     # Dataset and Dataloader setup
-    train_dataset = Dataset('train')
-    test_dataset = Dataset('val')
+    train_dataset =  get_files(args.train_root, ext = args.video_extension) #Dataset('train')
+    test_dataset = get_files(args.test_root, ext = args.video_extension) #Dataset('test')
 
     train_data_loader = data_utils.DataLoader(
         train_dataset, batch_size=hparams.syncnet_batch_size, shuffle=True,
         num_workers=hparams.num_workers)
-
+    print(train_data_loader)
     test_data_loader = data_utils.DataLoader(
         test_dataset, batch_size=hparams.syncnet_batch_size,
         num_workers=8)
