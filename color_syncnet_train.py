@@ -39,8 +39,8 @@ syncnet_T = 5
 syncnet_mel_step_size = 16
 
 class Dataset(object):
-    def __init__(self, split):
-        self.all_videos = get_image_list(args.data_root, split)
+    def __init__(self, root, split):
+        self.all_videos =  get_files(root, ext = args.video_extension) #get_image_list(args. , split)
 
     def get_frame_id(self, frame):
         return int(basename(frame).split('.')[0])
@@ -254,8 +254,8 @@ if __name__ == "__main__":
     if not os.path.exists(checkpoint_dir): os.mkdir(checkpoint_dir)
 
     # Dataset and Dataloader setup
-    train_dataset =  get_files(args.train_root, ext = args.video_extension) #Dataset('train')
-    test_dataset = get_files(args.test_root, ext = args.video_extension) #Dataset('test')
+    train_dataset =   Dataset(args.train_root) #get_files(args.train_root, ext = args.video_extension)
+    test_dataset = Dataset(args.test_root) #get_files(args.test_root, ext = args.video_extension) #
 
     train_data_loader = data_utils.DataLoader(
         train_dataset, batch_size=hparams.syncnet_batch_size, shuffle=True,
