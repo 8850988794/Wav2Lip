@@ -85,9 +85,7 @@ def mp_handler(job):
 		process_video_file(vfile, args, gpu_id)
 	except KeyboardInterrupt as e:
 		print(e)
-		exit(0)
-	except:
-		traceback.print_exc()
+	
 		
 def main(args):
 	print('Started processing for {} with {} GPUs'.format(args.data_root, args.ngpu))
