@@ -83,7 +83,8 @@ def mp_handler(job):
 	vfile, args, gpu_id = job
 	try:
 		process_video_file(vfile, args, gpu_id)
-	except KeyboardInterrupt:
+	except KeyboardInterrupt as e:
+		print(e)
 		exit(0)
 	except:
 		traceback.print_exc()
