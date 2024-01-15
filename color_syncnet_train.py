@@ -259,13 +259,12 @@ if __name__ == "__main__":
 
     train_data_loader = data_utils.DataLoader(
         train_dataset, batch_size=hparams.syncnet_batch_size, shuffle=True,
-        num_workers=hparams.num_workers,
-        sampler = data_utils.RandomSampler(train_dataset, num_samples= 1)
+        num_workers=hparams.num_workers
         )
     print(train_data_loader)
     test_data_loader = data_utils.DataLoader(
         test_dataset, batch_size=hparams.syncnet_batch_size,
-        num_workers=8, sampler=data_utils.RandomSampler(test_dataset, num_samples= 1))
+        num_workers=8)
 
     device = torch.device("cuda" if use_cuda else "cpu")
 
