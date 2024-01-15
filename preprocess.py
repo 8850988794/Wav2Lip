@@ -81,6 +81,7 @@ def process_audio_file(vfile, args):
 	
 def mp_handler(job):
 	vfile, args, gpu_id = job
+	print(job)
 	try:
 		process_video_file(vfile, args, gpu_id)
 	except KeyboardInterrupt as e:
